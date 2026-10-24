@@ -67,6 +67,16 @@ jobs:
             Start-Sleep -Milliseconds 100
           }
           if (!$app -or $app.MainWindowTitle -ne 'Atelier — Roadmap') { throw 'A janela nativa não abriu.' }
+          $ready = $false
+          for ($i=0; $i -lt 100; $i++) {
+            $statusFile = Join-Path $dataDir 'desktop-status.json'
+            if (Test-Path $statusFile) {
+              try { $status = Get-Content $statusFile -Raw | ConvertFrom-Json; $ready = $status.ready -and ($status.pid -eq $app.Id) } catch {}
+            }
+            if ($ready) { break }
+            Start-Sleep -Milliseconds 200
+          }
+          if (!$ready) { throw 'A interface não confirmou o carregamento dos dados.' }
           if (((Get-Content (Join-Path $dataDir 'agenda.json') -Raw) | ConvertFrom-Json).marker -ne 'must-survive') { throw 'Instalação alterou dados locais.' }
           Start-Sleep -Milliseconds 1500
           $app.CloseMainWindow() | Out-Null

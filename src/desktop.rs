@@ -4,40 +4,60 @@ pub fn run(
     receiver: std::sync::mpsc::Receiver<()>,
     profile: std::path::PathBuf,
 ) -> Result<(), Box<dyn std::error::Error>> {
+    use std::sync::{
+        atomic::{AtomicBool, Ordering},
+        Arc,
+    };
     use tao::{
         event::{Event, WindowEvent},
-        event_loop::{ControlFlow, EventLoop},
+        event_loop::{ControlFlow, EventLoopBuilder},
         window::WindowBuilder,
     };
-    let event_loop = EventLoop::new();
+    let event_loop = EventLoopBuilder::<()>::with_user_event().build();
+    let quit_proxy = event_loop.create_proxy();
+    std::thread::spawn(move || {
+        if receiver.recv().is_ok() {
+            let _ = quit_proxy.send_event(());
+        }
+    });
     let window = WindowBuilder::new()
         .with_title("Atelier — Roadmap")
         .with_inner_size(tao::dpi::LogicalSize::new(1440., 960.))
         .with_min_inner_size(tao::dpi::LogicalSize::new(850., 600.))
         .build(&event_loop)?;
+    let status_path = profile.parent().unwrap().join("desktop-status.json");
     let mut context = wry::WebContext::new(Some(profile));
     let allowed = url.clone();
-    let loaded = std::sync::Arc::new(std::sync::atomic::AtomicBool::new(false));
-    let loaded_handler = loaded.clone();
-    let webview = wry::WebViewBuilder::with_web_context(&mut context)
-        .with_url(&url)
-        .with_devtools(cfg!(debug_assertions))
-        .with_navigation_handler(move |target| {
-            target.starts_with(&allowed) || target.starts_with("blob:")
-        })
-        .with_on_page_load_handler(move |event, _| {
-            if matches!(event, wry::PageLoadEvent::Finished) {
-                loaded_handler.store(true, std::sync::atomic::Ordering::Relaxed);
+    let ready = Arc::new(AtomicBool::new(false));
+    let ipc_ready = ready.clone();
+    let ipc_proxy = event_loop.create_proxy();
+    let webview=wry::WebViewBuilder::with_web_context(&mut context)
+        .with_url(&url).with_devtools(cfg!(debug_assertions))
+        .with_navigation_handler(move|target|target.starts_with(&allowed)||target.starts_with("blob:"))
+        .with_new_window_req_handler(|_|false)
+        .with_ipc_handler(move|request|match request.body().as_str(){
+            "atelier-ready"=>{ipc_ready.store(true,Ordering::Relaxed);let _=std::fs::write(&status_path,serde_json::json!({"ready":true,"pid":std::process::id(),"version":env!("CARGO_PKG_VERSION")}).to_string());},
+            "atelier-close-ready"=>{let _=ipc_proxy.send_event(());},
+            _=>{}
+        }).build(&window)?;
+    event_loop.run(move |event, _, control_flow| {
+        match event {
+            Event::UserEvent(()) => *control_flow = ControlFlow::Exit,
+            Event::WindowEvent {
+                event: WindowEvent::CloseRequested,
+                ..
+            } => {
+                if !ready.load(Ordering::Relaxed) {
+                    *control_flow = ControlFlow::Exit;
+                } else {
+                    let _ = webview
+                        .evaluate_script("window.__atelierClose().catch(e=>tell(e.message))");
+                }
             }
-        })
-        .with_new_window_req_handler(|_| false)
-        .build(&window)?;
-    event_loop.run(move |event,_,control_flow| {
-        *control_flow=ControlFlow::WaitUntil(std::time::Instant::now()+std::time::Duration::from_millis(150));
-        if receiver.try_recv().is_ok(){*control_flow=ControlFlow::Exit;return;}
-        if let Event::WindowEvent{event:WindowEvent::CloseRequested,..}=event {
-            if !loaded.load(std::sync::atomic::Ordering::Relaxed){*control_flow=ControlFlow::Exit;return;}
-            let _=webview.evaluate_script("if(typeof state!=='undefined' && state){document.querySelector('#exit').click()}else{fetch('quit',{method:'POST'})}");
+            _ => {}
+        }
+        if !matches!(*control_flow, ControlFlow::ExitWithCode(_)) {
+            *control_flow = ControlFlow::Wait;
         }
     });
 }
