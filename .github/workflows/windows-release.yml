@@ -1,0 +1,72 @@
+name: Windows — testar, compilar e publicar
+on:
+  push:
+    branches: [main]
+    paths-ignore: ['mentor/**', '**.md']
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: windows-release
+  cancel-in-progress: false
+jobs:
+  windows:
+    runs-on: windows-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configurar Rust
+        uses: dtolnay/rust-toolchain@stable
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: Swatinem/rust-cache@v2
+      - name: Testar núcleo Rust
+        run: cargo test --locked
+      - name: Compilar versão de teste
+        run: cargo build --locked
+      - name: Preparar testes da interface
+        run: |
+          npm ci
+          npx playwright install chromium
+      - name: Testar interface e persistência
+        run: python tests/run-ui.py
+      - name: Compilar aplicativo Windows
+        run: cargo build --release --locked
+      - name: Preparar instalador
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force dist | Out-Null
+          Invoke-WebRequest 'https://go.microsoft.com/fwlink/p/?LinkId=2124703' -OutFile dist/MicrosoftEdgeWebview2Setup.exe
+          $signature = Get-AuthenticodeSignature dist/MicrosoftEdgeWebview2Setup.exe
+          if ($signature.Status -ne 'Valid' -or $signature.SignerCertificate.Subject -notmatch 'Microsoft Corporation') { throw 'Bootstrapper Microsoft sem assinatura válida.' }
+          $version = (Select-String '^version = "([^"]+)"' Cargo.toml | Select-Object -First 1).Matches.Groups[1].Value
+          & "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe" "/DAppVersion=$version" installer/atelier.iss
+          if ($LASTEXITCODE -ne 0) { throw 'Falha ao criar o instalador.' }
+          $hash = (Get-FileHash dist/Atelier-Setup.exe -Algorithm SHA256).Hash.ToLower()
+          "$hash  Atelier-Setup.exe" | Out-File -Encoding ascii dist/Atelier-Setup.exe.sha256
+          Copy-Item target/release/atelier-roadmap.exe dist/Atelier.exe
+          "ATELIER_VERSION=$version" >> $env:GITHUB_ENV
+      - name: Testar instalação silenciosa preservando dados
+        shell: pwsh
+        run: |
+          $testDir = Join-Path $env:RUNNER_TEMP 'AtelierInstallTest'
+          $dataDir = Join-Path $env:LOCALAPPDATA 'AtelierRoadmap'
+          New-Item -ItemType Directory -Force $dataDir | Out-Null
+          '{"preserve":"sentinel"}' | Set-Content (Join-Path $dataDir 'agenda.json')
+          $before = Get-FileHash (Join-Path $dataDir 'agenda.json')
+          $p = Start-Process dist/Atelier-Setup.exe -ArgumentList '/VERYSILENT','/SUPPRESSMSGBOXES','/NORESTART',"/DIR=$testDir" -PassThru -Wait
+          if ($p.ExitCode -ne 0) { throw "Instalação falhou: $($p.ExitCode)" }
+          if (!(Test-Path "$testDir/Atelier.exe")) { throw 'Executável não instalado.' }
+          if ((Get-FileHash (Join-Path $dataDir 'agenda.json')).Hash -ne $before.Hash) { throw 'Instalador alterou dados locais.' }
+          Get-Process Atelier -ErrorAction SilentlyContinue | Stop-Process
+      - name: Publicar GitHub Release
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $tag = "v$env:ATELIER_VERSION"
+          gh release view $tag *> $null
+          if ($LASTEXITCODE -eq 0) { Write-Host 'Versão já publicada; aumente Cargo.toml para publicar outra.'; exit 0 }
+          gh release create $tag dist/Atelier-Setup.exe dist/Atelier-Setup.exe.sha256 dist/Atelier.exe --target $env:GITHUB_SHA --title "Atelier $env:ATELIER_VERSION — Windows" --notes "Aplicativo Rust para Windows 10/11 x64. Instale Atelier-Setup.exe. Próximas versões: Ajustes → Checar atualização. Plano de tarefas: Ajustes → Buscar plano do mentor. Dados locais preservados."
+          if ($LASTEXITCODE -ne 0) { throw 'Falha ao publicar release.' }

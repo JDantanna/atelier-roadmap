@@ -1,0 +1,207 @@
+{
+  "schemaVersion": 1,
+  "updateId": "mentor-2026-10-26-v1",
+  "summary": "Primeira semana: personagem original com lápis e cor, seis horas por dia.",
+  "tasks": [
+    {
+      "id": "base-2026-10-26-0",
+      "date": "2026-10-26",
+      "start": "09:00",
+      "title": "Estudo aplicado à peça",
+      "minutes": 45,
+      "category": "Estudo",
+      "project": "Primeiro personagem original",
+      "description": "Estudar uma dificuldade real da peça: gesto, mãos, tecido ou armadura. Entrega: pequeno estudo e uma decisão aplicada."
+    },
+    {
+      "id": "base-2026-10-26-1",
+      "date": "2026-10-26",
+      "start": "09:45",
+      "title": "Briefing e referências",
+      "minutes": 240,
+      "category": "Produção",
+      "project": "Primeiro personagem original",
+      "description": "Escrever um briefing de até dez linhas para um personagem original vendável: função, personalidade, equipamento e três restrições. Selecionar oito referências."
+    },
+    {
+      "id": "base-2026-10-26-2",
+      "date": "2026-10-26",
+      "start": "13:45",
+      "title": "Prospecção direcionada",
+      "minutes": 45,
+      "category": "Prospecção",
+      "project": "Oferta de arte",
+      "description": "Selecionar um comprador compatível e preparar um contato personalizado. Não publicar dados de clientes no repositório."
+    },
+    {
+      "id": "base-2026-10-26-3",
+      "date": "2026-10-26",
+      "start": "14:30",
+      "title": "Revisão e próxima ação",
+      "minutes": 30,
+      "category": "Revisão",
+      "project": "Primeiro personagem original",
+      "description": "Registrar tempo e dificuldade. Preparar duas publicações na semana quando houver material e exportar o resumo para o chat."
+    },
+    {
+      "id": "base-2026-10-27-0",
+      "date": "2026-10-27",
+      "start": "09:00",
+      "title": "Estudo aplicado à peça",
+      "minutes": 45,
+      "category": "Estudo",
+      "project": "Primeiro personagem original",
+      "description": "Estudar uma dificuldade real da peça: gesto, mãos, tecido ou armadura. Entrega: pequeno estudo e uma decisão aplicada."
+    },
+    {
+      "id": "base-2026-10-27-1",
+      "date": "2026-10-27",
+      "start": "09:45",
+      "title": "Seis silhuetas",
+      "minutes": 240,
+      "category": "Produção",
+      "project": "Primeiro personagem original",
+      "description": "Explorar seis proporções e equipamentos distintos. Escolher duas direções e anotar o motivo da escolha."
+    },
+    {
+      "id": "base-2026-10-27-2",
+      "date": "2026-10-27",
+      "start": "13:45",
+      "title": "Prospecção direcionada",
+      "minutes": 45,
+      "category": "Prospecção",
+      "project": "Oferta de arte",
+      "description": "Selecionar um comprador compatível e preparar um contato personalizado. Não publicar dados de clientes no repositório."
+    },
+    {
+      "id": "base-2026-10-27-3",
+      "date": "2026-10-27",
+      "start": "14:30",
+      "title": "Revisão e próxima ação",
+      "minutes": 30,
+      "category": "Revisão",
+      "project": "Primeiro personagem original",
+      "description": "Registrar tempo e dificuldade. Preparar duas publicações na semana quando houver material e exportar o resumo para o chat."
+    },
+    {
+      "id": "base-2026-10-28-0",
+      "date": "2026-10-28",
+      "start": "09:00",
+      "title": "Estudo aplicado à peça",
+      "minutes": 45,
+      "category": "Estudo",
+      "project": "Primeiro personagem original",
+      "description": "Estudar uma dificuldade real da peça: gesto, mãos, tecido ou armadura. Entrega: pequeno estudo e uma decisão aplicada."
+    },
+    {
+      "id": "base-2026-10-28-1",
+      "date": "2026-10-28",
+      "start": "09:45",
+      "title": "Construção do personagem",
+      "minutes": 240,
+      "category": "Produção",
+      "project": "Primeiro personagem original",
+      "description": "Resolver uma direção em vista de três quartos; checar pegada da arma, apoio dos pés e sobreposição dos equipamentos."
+    },
+    {
+      "id": "base-2026-10-28-2",
+      "date": "2026-10-28",
+      "start": "13:45",
+      "title": "Prospecção direcionada",
+      "minutes": 45,
+      "category": "Prospecção",
+      "project": "Oferta de arte",
+      "description": "Selecionar um comprador compatível e preparar um contato personalizado. Não publicar dados de clientes no repositório."
+    },
+    {
+      "id": "base-2026-10-28-3",
+      "date": "2026-10-28",
+      "start": "14:30",
+      "title": "Revisão e próxima ação",
+      "minutes": 30,
+      "category": "Revisão",
+      "project": "Primeiro personagem original",
+      "description": "Registrar tempo e dificuldade. Preparar duas publicações na semana quando houver material e exportar o resumo para o chat."
+    },
+    {
+      "id": "base-2026-10-29-0",
+      "date": "2026-10-29",
+      "start": "09:00",
+      "title": "Estudo aplicado à peça",
+      "minutes": 45,
+      "category": "Estudo",
+      "project": "Primeiro personagem original",
+      "description": "Estudar uma dificuldade real da peça: gesto, mãos, tecido ou armadura. Entrega: pequeno estudo e uma decisão aplicada."
+    },
+    {
+      "id": "base-2026-10-29-1",
+      "date": "2026-10-29",
+      "start": "09:45",
+      "title": "Linha e valores",
+      "minutes": 240,
+      "category": "Produção",
+      "project": "Primeiro personagem original",
+      "description": "Finalizar linhas essenciais; agrupar luz e sombra em três valores. Exportar uma prancha para revisão."
+    },
+    {
+      "id": "base-2026-10-29-2",
+      "date": "2026-10-29",
+      "start": "13:45",
+      "title": "Prospecção direcionada",
+      "minutes": 45,
+      "category": "Prospecção",
+      "project": "Oferta de arte",
+      "description": "Selecionar um comprador compatível e preparar um contato personalizado. Não publicar dados de clientes no repositório."
+    },
+    {
+      "id": "base-2026-10-29-3",
+      "date": "2026-10-29",
+      "start": "14:30",
+      "title": "Revisão e próxima ação",
+      "minutes": 30,
+      "category": "Revisão",
+      "project": "Primeiro personagem original",
+      "description": "Registrar tempo e dificuldade. Preparar duas publicações na semana quando houver material e exportar o resumo para o chat."
+    },
+    {
+      "id": "base-2026-10-30-0",
+      "date": "2026-10-30",
+      "start": "09:00",
+      "title": "Estudo aplicado à peça",
+      "minutes": 45,
+      "category": "Estudo",
+      "project": "Primeiro personagem original",
+      "description": "Estudar uma dificuldade real da peça: gesto, mãos, tecido ou armadura. Entrega: pequeno estudo e uma decisão aplicada."
+    },
+    {
+      "id": "base-2026-10-30-1",
+      "date": "2026-10-30",
+      "start": "09:45",
+      "title": "Paletas e revisão",
+      "minutes": 240,
+      "category": "Produção",
+      "project": "Primeiro personagem original",
+      "description": "Testar três paletas pequenas. Escolher uma, registrar o tempo da semana e preparar material para feedback antes de investir em render."
+    },
+    {
+      "id": "base-2026-10-30-2",
+      "date": "2026-10-30",
+      "start": "13:45",
+      "title": "Prospecção direcionada",
+      "minutes": 45,
+      "category": "Prospecção",
+      "project": "Oferta de arte",
+      "description": "Selecionar um comprador compatível e preparar um contato personalizado. Não publicar dados de clientes no repositório."
+    },
+    {
+      "id": "base-2026-10-30-3",
+      "date": "2026-10-30",
+      "start": "14:30",
+      "title": "Revisão e próxima ação",
+      "minutes": 30,
+      "category": "Revisão",
+      "project": "Primeiro personagem original",
+      "description": "Registrar tempo e dificuldade. Preparar duas publicações na semana quando houver material e exportar o resumo para o chat."
+    }
+  ]
+}
