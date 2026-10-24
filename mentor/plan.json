@@ -1,207 +1,274 @@
 {
   "schemaVersion": 1,
-  "updateId": "mentor-2026-10-26-v1",
-  "summary": "Primeira semana: personagem original com lápis e cor, seis horas por dia.",
+  "updateId": "mentor-2026-10-25-trolls-v2",
+  "timezone": "America/Sao_Paulo",
+  "startPolicy": "configured-day-start",
+  "minimumAppVersion": "0.3.1",
+  "summary": "25–31/10/2026: identidade visual dos trolls do seu MMORPG. Entrega: prancha publicável masculina e feminina a lápis. 35h revisáveis: dom 3h, seg–sex 6h/dia, sáb 2h. Início conforme seus Ajustes; sem hora de entrega imposta. Requer Atelier 0.3.1. Tarefas antigas permanecem preservadas; se já importou o plano genérico, arquive seus projetos antigos para não somar as cargas.",
   "tasks": [
     {
-      "id": "base-2026-10-26-0",
+      "id": "trolls-2026-10-25-direcao",
+      "date": "2026-10-25",
+      "title": "Briefing visual e direção dos dois trolls",
+      "minutes": 180,
+      "category": "Produção",
+      "project": "MMORPG autoral — identidade visual dos trolls",
+      "priority": "normal",
+      "description": "Prazo de etapa: 25/10/2026, America/Sao_Paulo; horário livre. Entrega e critério de pronto: Briefing curto, referências selecionadas e silhuetas dos dois corpos com uma direção escolhida por você.\nOrçamento revisável, incluindo revisão; não somar estudos avulsos à jornada. Linguagem pessoal: lápis, traço expressivo e influência de quadrinhos/concepts clássicos de Warcraft. Saturação e texturas pintadas orientam a aparência do jogo, sem exigir pintura de cada concept. Classes nos dois corpos, mais armas/props, símbolo, animais, arquitetura e escrita ficam para próximas etapas. Nomes de classe, prisão e carroça não são definições do projeto.",
+      "subtasks": [
+        {
+          "id": "trolls-2026-10-25-direcao-s1",
+          "title": "Escrever o briefing do povo: o que você quer comunicar e quais perguntas ainda estão abertas, sem fixar cultura ou classes prematuramente.",
+          "done": false
+        },
+        {
+          "id": "trolls-2026-10-25-direcao-s2",
+          "title": "Reunir referências focadas de anatomia, desenho e materiais; observar quadrinhos e concepts clássicos de Warcraft sem copiar sua solução.",
+          "done": false
+        },
+        {
+          "id": "trolls-2026-10-25-direcao-s3",
+          "title": "Explorar silhuetas masculina e feminina apenas até conseguir comparar direções; escolher o par e registrar a razão autoral.",
+          "done": false
+        }
+      ],
+      "dependencyIds": [],
+      "dueAt": null,
+      "remindMinutes": -1,
+      "tags": [
+        "MMORPG",
+        "Trolls",
+        "Portfólio",
+        "Lápis"
+      ]
+    },
+    {
+      "id": "trolls-2026-10-26-masculino",
       "date": "2026-10-26",
-      "start": "09:00",
-      "title": "Estudo aplicado à peça",
-      "minutes": 45,
-      "category": "Estudo",
-      "project": "Primeiro personagem original",
-      "description": "Estudar uma dificuldade real da peça: gesto, mãos, tecido ou armadura. Entrega: pequeno estudo e uma decisão aplicada."
-    },
-    {
-      "id": "base-2026-10-26-1",
-      "date": "2026-10-26",
-      "start": "09:45",
-      "title": "Briefing e referências",
-      "minutes": 240,
+      "title": "Concept masculino: corpo inteiro, cabeça e proporções",
+      "minutes": 360,
       "category": "Produção",
-      "project": "Primeiro personagem original",
-      "description": "Escrever um briefing de até dez linhas para um personagem original vendável: função, personalidade, equipamento e três restrições. Selecionar oito referências."
+      "project": "MMORPG autoral — identidade visual dos trolls",
+      "priority": "normal",
+      "description": "Prazo de etapa: 26/10/2026, America/Sao_Paulo; horário livre. Entrega e critério de pronto: Um troll masculino de corpo inteiro legível, com cabeça e proporções resolvidas; desenho já apresentável como processo.\nOrçamento revisável, incluindo revisão; não somar estudos avulsos à jornada. Linguagem pessoal: lápis, traço expressivo e influência de quadrinhos/concepts clássicos de Warcraft. Saturação e texturas pintadas orientam a aparência do jogo, sem exigir pintura de cada concept. Classes nos dois corpos, mais armas/props, símbolo, animais, arquitetura e escrita ficam para próximas etapas. Nomes de classe, prisão e carroça não são definições do projeto.",
+      "subtasks": [
+        {
+          "id": "trolls-2026-10-26-masculino-s1",
+          "title": "Construir gesto, apoio e proporções do corpo inteiro a partir da direção aprovada.",
+          "done": false
+        },
+        {
+          "id": "trolls-2026-10-26-masculino-s2",
+          "title": "Resolver cabeça e traços reconhecíveis do povo em detalhe legível.",
+          "done": false
+        },
+        {
+          "id": "trolls-2026-10-26-masculino-s3",
+          "title": "Revisar a leitura da silhueta e salvar uma versão de apresentação inicial.",
+          "done": false
+        }
+      ],
+      "dependencyIds": [
+        "trolls-2026-10-25-direcao"
+      ],
+      "dueAt": null,
+      "remindMinutes": -1,
+      "tags": [
+        "MMORPG",
+        "Trolls",
+        "Portfólio",
+        "Lápis"
+      ]
     },
     {
-      "id": "base-2026-10-26-2",
-      "date": "2026-10-26",
-      "start": "13:45",
-      "title": "Prospecção direcionada",
-      "minutes": 45,
-      "category": "Prospecção",
-      "project": "Oferta de arte",
-      "description": "Selecionar um comprador compatível e preparar um contato personalizado. Não publicar dados de clientes no repositório."
-    },
-    {
-      "id": "base-2026-10-26-3",
-      "date": "2026-10-26",
-      "start": "14:30",
-      "title": "Revisão e próxima ação",
-      "minutes": 30,
-      "category": "Revisão",
-      "project": "Primeiro personagem original",
-      "description": "Registrar tempo e dificuldade. Preparar duas publicações na semana quando houver material e exportar o resumo para o chat."
-    },
-    {
-      "id": "base-2026-10-27-0",
+      "id": "trolls-2026-10-27-feminino",
       "date": "2026-10-27",
-      "start": "09:00",
-      "title": "Estudo aplicado à peça",
-      "minutes": 45,
-      "category": "Estudo",
-      "project": "Primeiro personagem original",
-      "description": "Estudar uma dificuldade real da peça: gesto, mãos, tecido ou armadura. Entrega: pequeno estudo e uma decisão aplicada."
-    },
-    {
-      "id": "base-2026-10-27-1",
-      "date": "2026-10-27",
-      "start": "09:45",
-      "title": "Seis silhuetas",
-      "minutes": 240,
+      "title": "Concept feminino: identidade comum e decisões próprias",
+      "minutes": 360,
       "category": "Produção",
-      "project": "Primeiro personagem original",
-      "description": "Explorar seis proporções e equipamentos distintos. Escolher duas direções e anotar o motivo da escolha."
+      "project": "MMORPG autoral — identidade visual dos trolls",
+      "priority": "normal",
+      "description": "Prazo de etapa: 27/10/2026, America/Sao_Paulo; horário livre. Entrega e critério de pronto: Uma troll feminina de corpo inteiro e comparação dos dois concepts com identidade compartilhada.\nOrçamento revisável, incluindo revisão; não somar estudos avulsos à jornada. Linguagem pessoal: lápis, traço expressivo e influência de quadrinhos/concepts clássicos de Warcraft. Saturação e texturas pintadas orientam a aparência do jogo, sem exigir pintura de cada concept. Classes nos dois corpos, mais armas/props, símbolo, animais, arquitetura e escrita ficam para próximas etapas. Nomes de classe, prisão e carroça não são definições do projeto.",
+      "subtasks": [
+        {
+          "id": "trolls-2026-10-27-feminino-s1",
+          "title": "Construir corpo inteiro com gesto e proporções próprios, mantendo parentesco visual com o masculino.",
+          "done": false
+        },
+        {
+          "id": "trolls-2026-10-27-feminino-s2",
+          "title": "Resolver cabeça e anatomia com intenção autoral, sem tratar o feminino apenas como cópia reduzida.",
+          "done": false
+        },
+        {
+          "id": "trolls-2026-10-27-feminino-s3",
+          "title": "Colocar os dois lado a lado e registrar o que é comum ao povo e o que é individual.",
+          "done": false
+        }
+      ],
+      "dependencyIds": [
+        "trolls-2026-10-26-masculino"
+      ],
+      "dueAt": null,
+      "remindMinutes": -1,
+      "tags": [
+        "MMORPG",
+        "Trolls",
+        "Portfólio",
+        "Lápis"
+      ]
     },
     {
-      "id": "base-2026-10-27-2",
-      "date": "2026-10-27",
-      "start": "13:45",
-      "title": "Prospecção direcionada",
-      "minutes": 45,
-      "category": "Prospecção",
-      "project": "Oferta de arte",
-      "description": "Selecionar um comprador compatível e preparar um contato personalizado. Não publicar dados de clientes no repositório."
-    },
-    {
-      "id": "base-2026-10-27-3",
-      "date": "2026-10-27",
-      "start": "14:30",
-      "title": "Revisão e próxima ação",
-      "minutes": 30,
-      "category": "Revisão",
-      "project": "Primeiro personagem original",
-      "description": "Registrar tempo e dificuldade. Preparar duas publicações na semana quando houver material e exportar o resumo para o chat."
-    },
-    {
-      "id": "base-2026-10-28-0",
+      "id": "trolls-2026-10-28-par",
       "date": "2026-10-28",
-      "start": "09:00",
-      "title": "Estudo aplicado à peça",
-      "minutes": 45,
-      "category": "Estudo",
-      "project": "Primeiro personagem original",
-      "description": "Estudar uma dificuldade real da peça: gesto, mãos, tecido ou armadura. Entrega: pequeno estudo e uma decisão aplicada."
-    },
-    {
-      "id": "base-2026-10-28-1",
-      "date": "2026-10-28",
-      "start": "09:45",
-      "title": "Construção do personagem",
-      "minutes": 240,
+      "title": "Refinar o par e montar a primeira prancha",
+      "minutes": 360,
       "category": "Produção",
-      "project": "Primeiro personagem original",
-      "description": "Resolver uma direção em vista de três quartos; checar pegada da arma, apoio dos pés e sobreposição dos equipamentos."
+      "project": "MMORPG autoral — identidade visual dos trolls",
+      "priority": "high",
+      "description": "Prazo de etapa: 28/10/2026, America/Sao_Paulo; horário livre. Entrega e critério de pronto: Primeira prancha exportada com ambos os personagens e os detalhes estritamente necessários. Se houver atraso, cortar detalhes extras antes de sacrificar os dois corpos inteiros.\nOrçamento revisável, incluindo revisão; não somar estudos avulsos à jornada. Linguagem pessoal: lápis, traço expressivo e influência de quadrinhos/concepts clássicos de Warcraft. Saturação e texturas pintadas orientam a aparência do jogo, sem exigir pintura de cada concept. Classes nos dois corpos, mais armas/props, símbolo, animais, arquitetura e escrita ficam para próximas etapas. Nomes de classe, prisão e carroça não são definições do projeto.",
+      "subtasks": [
+        {
+          "id": "trolls-2026-10-28-par-s1",
+          "title": "Revisar os dois juntos: escala, proporções, cabeças, mãos, pés e coerência de linguagem.",
+          "done": false
+        },
+        {
+          "id": "trolls-2026-10-28-par-s2",
+          "title": "Acrescentar somente vistas ou detalhes que esclareçam uma decisão importante; evitar turnaround completo por obrigação.",
+          "done": false
+        },
+        {
+          "id": "trolls-2026-10-28-par-s3",
+          "title": "Montar e exportar uma primeira prancha legível dos dois trolls para revisão.",
+          "done": false
+        }
+      ],
+      "dependencyIds": [
+        "trolls-2026-10-27-feminino"
+      ],
+      "dueAt": null,
+      "remindMinutes": -1,
+      "tags": [
+        "MMORPG",
+        "Trolls",
+        "Portfólio",
+        "Lápis"
+      ]
     },
     {
-      "id": "base-2026-10-28-2",
-      "date": "2026-10-28",
-      "start": "13:45",
-      "title": "Prospecção direcionada",
-      "minutes": 45,
-      "category": "Prospecção",
-      "project": "Oferta de arte",
-      "description": "Selecionar um comprador compatível e preparar um contato personalizado. Não publicar dados de clientes no repositório."
-    },
-    {
-      "id": "base-2026-10-28-3",
-      "date": "2026-10-28",
-      "start": "14:30",
-      "title": "Revisão e próxima ação",
-      "minutes": 30,
-      "category": "Revisão",
-      "project": "Primeiro personagem original",
-      "description": "Registrar tempo e dificuldade. Preparar duas publicações na semana quando houver material e exportar o resumo para o chat."
-    },
-    {
-      "id": "base-2026-10-29-0",
+      "id": "trolls-2026-10-29-arma",
       "date": "2026-10-29",
-      "start": "09:00",
-      "title": "Estudo aplicado à peça",
-      "minutes": 45,
-      "category": "Estudo",
-      "project": "Primeiro personagem original",
-      "description": "Estudar uma dificuldade real da peça: gesto, mãos, tecido ou armadura. Entrega: pequeno estudo e uma decisão aplicada."
-    },
-    {
-      "id": "base-2026-10-29-1",
-      "date": "2026-10-29",
-      "start": "09:45",
-      "title": "Linha e valores",
-      "minutes": 240,
+      "title": "Equipamento simples e uma arma de identidade autoral",
+      "minutes": 360,
       "category": "Produção",
-      "project": "Primeiro personagem original",
-      "description": "Finalizar linhas essenciais; agrupar luz e sombra em três valores. Exportar uma prancha para revisão."
+      "project": "MMORPG autoral — identidade visual dos trolls",
+      "priority": "normal",
+      "description": "Prazo de etapa: 29/10/2026, America/Sao_Paulo; horário livre. Entrega e critério de pronto: Uma arma legível e equipamento simples integrado ao par, com indicações de materiais. Reduzir variações se a prancha precisar de correção.\nOrçamento revisável, incluindo revisão; não somar estudos avulsos à jornada. Linguagem pessoal: lápis, traço expressivo e influência de quadrinhos/concepts clássicos de Warcraft. Saturação e texturas pintadas orientam a aparência do jogo, sem exigir pintura de cada concept. Classes nos dois corpos, mais armas/props, símbolo, animais, arquitetura e escrita ficam para próximas etapas. Nomes de classe, prisão e carroça não são definições do projeto.",
+      "subtasks": [
+        {
+          "id": "trolls-2026-10-29-arma-s1",
+          "title": "Escolher equipamento cultural simples como hipótese visual; decidir você o significado e a função.",
+          "done": false
+        },
+        {
+          "id": "trolls-2026-10-29-arma-s2",
+          "title": "Desenvolver uma arma que reforce a identidade dos personagens, mostrando silhueta, pegada e construção legível.",
+          "done": false
+        },
+        {
+          "id": "trolls-2026-10-29-arma-s3",
+          "title": "Integrar equipamento e chamadas curtas de materiais à prancha, sem abrir uma coleção de props.",
+          "done": false
+        }
+      ],
+      "dependencyIds": [
+        "trolls-2026-10-28-par"
+      ],
+      "dueAt": null,
+      "remindMinutes": -1,
+      "tags": [
+        "MMORPG",
+        "Trolls",
+        "Portfólio",
+        "Lápis"
+      ]
     },
     {
-      "id": "base-2026-10-29-2",
-      "date": "2026-10-29",
-      "start": "13:45",
-      "title": "Prospecção direcionada",
-      "minutes": 45,
-      "category": "Prospecção",
-      "project": "Oferta de arte",
-      "description": "Selecionar um comprador compatível e preparar um contato personalizado. Não publicar dados de clientes no repositório."
-    },
-    {
-      "id": "base-2026-10-29-3",
-      "date": "2026-10-29",
-      "start": "14:30",
-      "title": "Revisão e próxima ação",
-      "minutes": 30,
-      "category": "Revisão",
-      "project": "Primeiro personagem original",
-      "description": "Registrar tempo e dificuldade. Preparar duas publicações na semana quando houver material e exportar o resumo para o chat."
-    },
-    {
-      "id": "base-2026-10-30-0",
+      "id": "trolls-2026-10-30-prancha",
       "date": "2026-10-30",
-      "start": "09:00",
-      "title": "Estudo aplicado à peça",
-      "minutes": 45,
-      "category": "Estudo",
-      "project": "Primeiro personagem original",
-      "description": "Estudar uma dificuldade real da peça: gesto, mãos, tecido ou armadura. Entrega: pequeno estudo e uma decisão aplicada."
-    },
-    {
-      "id": "base-2026-10-30-1",
-      "date": "2026-10-30",
-      "start": "09:45",
-      "title": "Paletas e revisão",
-      "minutes": 240,
+      "title": "Finalizar o lápis e diagramar a prancha publicável",
+      "minutes": 360,
       "category": "Produção",
-      "project": "Primeiro personagem original",
-      "description": "Testar três paletas pequenas. Escolher uma, registrar o tempo da semana e preparar material para feedback antes de investir em render."
+      "project": "MMORPG autoral — identidade visual dos trolls",
+      "priority": "high",
+      "description": "Prazo de etapa: 30/10/2026, America/Sao_Paulo; horário livre. Entrega e critério de pronto: Prancha publicável em boa leitura de tela, com masculino e feminino completos, autoria identificada e processo selecionado. Aprovar acabamento a lápis como final; cor somente se ajudar e couber no orçamento.\nOrçamento revisável, incluindo revisão; não somar estudos avulsos à jornada. Linguagem pessoal: lápis, traço expressivo e influência de quadrinhos/concepts clássicos de Warcraft. Saturação e texturas pintadas orientam a aparência do jogo, sem exigir pintura de cada concept. Classes nos dois corpos, mais armas/props, símbolo, animais, arquitetura e escrita ficam para próximas etapas. Nomes de classe, prisão e carroça não são definições do projeto.",
+      "subtasks": [
+        {
+          "id": "trolls-2026-10-30-prancha-s1",
+          "title": "Finalizar linhas e hierarquia visual preservando textura do lápis e traço expressivo; pintura e render 3D não são requisitos.",
+          "done": false
+        },
+        {
+          "id": "trolls-2026-10-30-prancha-s2",
+          "title": "Digitalizar ou tratar os desenhos sem apagar sua personalidade; ajustar contraste e limpeza para leitura.",
+          "done": false
+        },
+        {
+          "id": "trolls-2026-10-30-prancha-s3",
+          "title": "Diagramar os dois corpos inteiros, detalhes essenciais, arma e processo selecionado; exportar o arquivo mestre e uma versão para web.",
+          "done": false
+        }
+      ],
+      "dependencyIds": [
+        "trolls-2026-10-29-arma"
+      ],
+      "dueAt": null,
+      "remindMinutes": -1,
+      "tags": [
+        "MMORPG",
+        "Trolls",
+        "Portfólio",
+        "Lápis"
+      ]
     },
     {
-      "id": "base-2026-10-30-2",
-      "date": "2026-10-30",
-      "start": "13:45",
-      "title": "Prospecção direcionada",
-      "minutes": 45,
-      "category": "Prospecção",
-      "project": "Oferta de arte",
-      "description": "Selecionar um comprador compatível e preparar um contato personalizado. Não publicar dados de clientes no repositório."
-    },
-    {
-      "id": "base-2026-10-30-3",
-      "date": "2026-10-30",
-      "start": "14:30",
-      "title": "Revisão e próxima ação",
-      "minutes": 30,
+      "id": "trolls-2026-10-31-pacote",
+      "date": "2026-10-31",
+      "title": "Revisão leve e pacote pronto para o portfólio",
+      "minutes": 120,
       "category": "Revisão",
-      "project": "Primeiro personagem original",
-      "description": "Registrar tempo e dificuldade. Preparar duas publicações na semana quando houver material e exportar o resumo para o chat."
+      "project": "MMORPG autoral — identidade visual dos trolls",
+      "priority": "normal",
+      "description": "Prazo de etapa: 31/10/2026, America/Sao_Paulo; horário livre. Entrega e critério de pronto: Pacote organizado e pronto para o site, com texto de apresentação e próxima ação comercial definida. Não publicar o site nem enviar contatos automaticamente.\nOrçamento revisável, incluindo revisão; não somar estudos avulsos à jornada. Linguagem pessoal: lápis, traço expressivo e influência de quadrinhos/concepts clássicos de Warcraft. Saturação e texturas pintadas orientam a aparência do jogo, sem exigir pintura de cada concept. Classes nos dois corpos, mais armas/props, símbolo, animais, arquitetura e escrita ficam para próximas etapas. Nomes de classe, prisão e carroça não são definições do projeto.",
+      "subtasks": [
+        {
+          "id": "trolls-2026-10-31-pacote-s1",
+          "title": "Revisar legibilidade, consistência, ortografia, créditos e exportações; corrigir apenas o que compromete a entrega.",
+          "done": false
+        },
+        {
+          "id": "trolls-2026-10-31-pacote-s2",
+          "title": "Preparar arquivos para o site e uma apresentação curta oferecendo concept de personagens e weapon design para jogos e RPG; selecionar um contato ou canal compatível para a próxima ação comercial.",
+          "done": false
+        },
+        {
+          "id": "trolls-2026-10-31-pacote-s3",
+          "title": "Registrar tempo, pendências e decisões para a revisão com o mentor; deixar publicação e envio de contatos para sua escolha.",
+          "done": false
+        }
+      ],
+      "dependencyIds": [
+        "trolls-2026-10-30-prancha"
+      ],
+      "dueAt": null,
+      "remindMinutes": -1,
+      "tags": [
+        "MMORPG",
+        "Trolls",
+        "Portfólio",
+        "Lápis"
+      ]
     }
   ]
 }

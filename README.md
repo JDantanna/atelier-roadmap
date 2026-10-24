@@ -78,3 +78,10 @@ O workflow testa migração da agenda anterior, projetos, subtarefas, prioridade
 Para publicar uma nova versão, aumente `Cargo.toml`, atualize `Cargo.lock` e os metadados de versão do pacote de testes, valide e faça commit no `main`. A indicação de versão da interface vem do binário. O workflow publica `vX.Y.Z`, instalador, executável e checksum. Releases existentes não são sobrescritas. Alterações apenas em `mentor/` ou documentação não recompilam o programa.
 
 O instalador não tem assinatura digital do autor; o bootstrapper WebView2 é obtido da Microsoft e sua assinatura é verificada pelo workflow.
+
+### Plano dos trolls — 25 a 31/10/2026
+
+Em 0.3.1 ou posterior: **Ajustes → Buscar plano do mentor → Aplicar atualização**.
+O plano usa o início do dia que você configurou (campo obrigatório da agenda), sem impor horário de trabalho ou alarme: os prazos desta semana são datas nas descrições. A carga é revisável: domingo 3h, segunda a sexta 6h/dia, sábado 2h (35h). Entrega principal: prancha publicável dos trolls masculino e feminino do MMORPG autoral, com acabamento a lápis permitido como final; primeira prancha para revisão na quarta e finalização na sexta.
+
+A revisão preserva tarefas e projetos anteriores, tempo, notas, conclusão e marcações de subtarefas com o mesmo ID. Se já aplicou o plano genérico antigo, arquive seus projetos antigos para não somar duas jornadas; eles não são apagados nem marcados como concluídos. Esta atualização não publica seu site e não acessa seus dados locais. Classes, demais props, símbolo, animais, arquitetura e escrita ficam para futuras semanas.
