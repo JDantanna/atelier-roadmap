@@ -1,38 +1,60 @@
-# Atelier Roadmap
+# Atelier — projetos e roadmaps
 
-Aplicativo de agenda e direção artística para **Windows 10/11 x64**, desenvolvido em **Rust**. Janela própria com WebView2 (Wry/Tao), sem abrir o navegador.
+Gerenciador pessoal de projetos para **Windows 10/11 x64**, feito em **Rust**, com janela própria. A versão 0.3 amplia o antigo planejador artístico; a agenda anterior é preservada.
 
-## Instalar
+## Instalar e atualizar
 
-Baixe **Atelier-Setup.exe** na [última release](https://github.com/JDantanna/atelier-roadmap/releases/latest) e execute. O instalador prepara o WebView2 da Microsoft se necessário (essa etapa exige internet), cria o atalho e instala para o usuário atual, sem exigir Rust.
+Baixe **Atelier-Setup.exe** na [última versão](https://github.com/JDantanna/atelier-roadmap/releases/latest). Não precisa instalar Rust. O instalador prepara o Microsoft WebView2 quando necessário.
 
-## Atualizar pelo aplicativo
+No aplicativo: **Ajustes → Checar atualização → Baixar atualização → Instalar e reiniciar**. A atualização verifica o checksum SHA-256 e mantém os dados separados da instalação. Novas versões são publicadas automaticamente pelo GitHub Actions depois dos testes.
 
-Em **Ajustes → Checar atualização**, o aplicativo consulta exclusivamente as releases de `JDantanna/atelier-roadmap`. Quando houver uma versão mais nova, escolha **Baixar atualização** e depois **Instalar e reiniciar**. As versões de teste e os downgrades são rejeitados. O download é verificado por SHA-256 antes da instalação e novamente antes da execução.
+## O que está incluído
 
-Dados ficam separados da instalação, em `%LOCALAPPDATA%\AtelierRoadmap\agenda.json`; a versão anterior fica em `agenda.backup.json`. Atualizar ou desinstalar não apaga a agenda. A interface também oferece exportação e restauração de backup.
+- **Projetos:** nome, objetivo, cor, início, prazo final, status, progresso e arquivamento sem apagar o histórico.
+- **Tarefas:** quatro status (a fazer, em andamento, bloqueada, concluída), quatro prioridades, etiquetas, notas, estimativa e tempo real.
+- **Subtarefas e dependências:** checklist, bloqueio de início/conclusão enquanto houver dependências pendentes e prevenção de ciclos.
+- **Recorrência:** ao concluir, cria a próxima ocorrência diária, semanal ou mensal. Reabrir e concluir novamente não duplica a próxima tarefa.
+- **Lista, Kanban e busca:** filtro por projeto, prioridade e status; busca por texto; movimentação de cartões e seletor de status acessível.
+- **Roadmap:** linha do tempo dos projetos, marcos editáveis e tarefas vinculadas a cada marco.
+- **Hoje, semana e mês:** organização do trabalho planejado, separada do prazo de entrega.
+- **Prazos de tarefas:** data e hora, lembrete antecipado e aviso no vencimento. Prazos vencidos são recuperados quando o programa volta a abrir.
+- **Notificações:** balões nativos do Windows e central interna com histórico, leitura e adiamento. Avisos não são repetidos continuamente; conclusão e arquivamento interrompem os novos avisos.
+- **Relatórios:** progresso por projeto, tarefas atrasadas, horas e histórico de alterações.
 
-## Atualizar o plano do mentor
+A edição inicial é para **um usuário**, sem contas, colaboração ou sincronização de dados pessoais com serviços externos.
 
-O arquivo [`mentor/plan.json`](mentor/plan.json) contém o plano compartilhável. Quando uma revisão do chat resultar em mudanças, editamos esse arquivo no GitHub. Depois use **Ajustes → Buscar plano do mentor**: leia a prévia e aplique. Não exige reinstalação nem uma nova release.
+## Minimizar, bandeja e fechar
 
-- Não existe leitura automática das conversas do ChatGPT.
-- Nenhum registro pessoal, receita, anotação ou progresso local é enviado ao GitHub.
-- Alterações por ID preservam tempo real, notas e conclusão. IDs novos criam tarefas; atualizações não apagam tarefas.
-- Cada revisão deve usar um `updateId` único. O mesmo plano não é aplicado duas vezes.
-- Para compartilhar progresso com o mentor, exporte o resumo e envie no chat por decisão própria. Não faça commit desse resumo no repositório público.
+Por padrão, o Atelier pergunta:
 
-## Agenda inicial
+- Ao minimizar: **Barra de tarefas**, **Continuar na bandeja** ou **Cancelar**.
+- Ao fechar: **Salvar e sair**, **Continuar na bandeja** ou **Cancelar**.
 
-Seis horas de segunda a sexta, início às 09h: estudo aplicado (45min), produção (4h), prospecção (45min) e revisão (30min). Horários, dias, capacidade, tarefas e metas são editáveis. Os intervalos podem ser inseridos remarcando os blocos.
+A pergunta tem **Lembrar minha escolha**. As preferências podem ser alteradas em **Ajustes → Janela e notificações**. O formulário de tarefa que estiver aberto permanece intacto ao cancelar ou continuar em segundo plano; ao sair, formulários ainda não salvos são descartados.
 
-Telas: Hoje, Semana, Mês, Roadmap, Resultados e Ajustes. Há cronômetro, registro de tempo, conclusão e reabertura de tarefas, edição de metas e controle de recebimentos. O modelo inicial cobre outubro de 2026 a março de 2027; é uma estrutura de trabalho editável, e não uma promessa de resultado financeiro.
+O ícone da bandeja, junto ao relógio, reabre o programa com um clique. O menu de contexto oferece **Abrir Atelier** e **Salvar e sair**. Se a bandeja não estiver disponível no Windows, o aplicativo permanece na barra de tarefas para que possa ser reaberto.
 
-Pause o cronômetro antes de suspender o computador. Ele mede tempo de relógio, faz checkpoints a cada 15 segundos e pode incluir suspensão. Ao fechar a janela, o aplicativo pausa e salva antes de encerrar. A agenda também pode ser restaurada do JSON exportado pela versão portátil 0.1.
+**Os lembretes exigem que o Atelier continue aberto ou na bandeja.** Sair completamente encerra o programa, sem instalar um serviço ou agendamento oculto. Ao reabrir, o programa verifica os prazos vencidos. O Windows pode silenciar balões conforme suas preferências de notificações/Não incomodar. A central interna conserva os avisos independentemente disso. Use **Testar notificação do Windows** nos Ajustes para conferir a entrega no computador.
 
-## Desenvolvimento
+## Dados e migração
 
-Pré-requisitos no Windows: Rust estável com MSVC, ferramentas C++ e Microsoft WebView2 Runtime.
+Dados locais: `%LOCALAPPDATA%\AtelierRoadmap\agenda.json`. A versão anterior de cada gravação fica em `agenda.backup.json`. Os avisos e o controle para evitar notificações duplicadas ficam em `notifications.json`.
+
+Ao abrir uma agenda 0.2, o aplicativo cria os projetos a partir dos agrupamentos existentes e mantém IDs, tarefas, horários, conclusões, notas, tempo, marcos e recebimentos anteriores. Tarefas antigas **não recebem prazos de notificação automaticamente**, evitando avisos inesperados para toda a agenda antiga. Os recebimentos anteriores continuam acessíveis em Relatórios.
+
+Novas instalações começam com um espaço vazio para projetos, sem preencher meses com tarefas artísticas. A capacidade diária é uma preferência editável, não um limite de projetos.
+
+Use **Exportar backup** e **Restaurar backup** para a agenda, projetos e preferências. O histórico de notificações também pode ser preservado copiando `notifications.json` com o programa encerrado. O instalador e o desinstalador não apagam a pasta de dados pessoais.
+
+## Plano pelo GitHub e acompanhamento no chat
+
+A integração opcional em **Ajustes → Buscar plano do mentor** continua disponível. O aplicativo lê [`mentor/plan.json`](mentor/plan.json), mostra a prévia e só aplica após a escolha do usuário. Reutilizar IDs preserva conclusão, notas e tempo; IDs novos acrescentam tarefas. Use um `updateId` único por revisão.
+
+O programa não lê conversas do ChatGPT automaticamente. O código e o plano compartilhável ficam neste repositório público; progresso, notas, receita e dados locais não são enviados. Para revisão no chat, exporte o resumo e envie por decisão própria. Não publique esse resumo no GitHub.
+
+## Desenvolvimento e validação
+
+No Windows: Rust estável/MSVC, ferramentas C++ e WebView2.
 
 ```text
 cargo test --locked
@@ -40,9 +62,7 @@ cargo run
 cargo build --release --locked
 ```
 
-Para testar a interface no Linux, use `ATELIER_HEADLESS=1 cargo run`. A janela nativa é exclusiva do Windows. O servidor local aceita somente 127.0.0.1, tem rota aleatória por sessão, valida a origem e não oferece acesso arbitrário a arquivos.
-
-Testes da interface:
+Testes do modelo de projetos e da interface:
 
 ```text
 cargo build --locked
@@ -51,15 +71,10 @@ npx playwright install chromium
 python tests/run-ui.py
 ```
 
-## Publicação e próximas versões
+O modo `ATELIER_HEADLESS=1` permite testar a interface e o backend no Linux. A bandeja e os balões de notificação são implementados com as APIs Win32 e funcionam no Windows.
 
-O workflow [Windows — testar, compilar e publicar](.github/workflows/windows-release.yml) testa o núcleo, a interface e persistência, compila o programa e gera o instalador Inno Setup. Valida a assinatura do bootstrapper WebView2 da Microsoft e testa a instalação silenciosa sem alterar os dados existentes. A release só é publicada depois desses passos passarem.
+O workflow testa migração da agenda anterior, projetos, subtarefas, prioridades, prazos, Kanban, roadmap, cronômetro, calendário, central de avisos, adiamento, preferências de janela, plano e atualização. O núcleo testa lembretes antecipados, vencimento, recuperação, persistência/deduplicação, desativação, adiamento e checksums. A validação no Windows instala o programa, confirma o carregamento da interface, minimiza, restaura uma instância existente e fecha salvando os dados.
 
-1. Faça a mudança de código e atualize testes relevantes.
-2. Aumente a versão em `Cargo.toml`, `package.json`, `package-lock.json` e na indicação de versão da interface. Atualize o lock do Cargo.
-3. Faça commit no `main`. O workflow publica uma release `vX.Y.Z` com `Atelier-Setup.exe`, checksum e executável.
-4. O usuário recebe essa versão ao checar atualizações no aplicativo.
+Para publicar uma nova versão, aumente `Cargo.toml`, atualize `Cargo.lock` e os metadados de versão do pacote de testes, valide e faça commit no `main`. A indicação de versão da interface vem do binário. O workflow publica `vX.Y.Z`, instalador, executável e checksum. Releases existentes não são sobrescritas. Alterações apenas em `mentor/` ou documentação não recompilam o programa.
 
-Um commit só em `mentor/` não recompila o aplicativo: o plano é baixado diretamente pelo botão. Alterações apenas de documentação também não disparam release. O workflow pode ser executado manualmente em Actions. Releases existentes não são sobrescritas.
-
-O instalador ainda não possui assinatura digital do autor. O checksum protege contra downloads incompletos e substituições acidentais; a confiança na origem depende do HTTPS e do controle deste repositório.
+O instalador não tem assinatura digital do autor; o bootstrapper WebView2 é obtido da Microsoft e sua assinatura é verificada pelo workflow.

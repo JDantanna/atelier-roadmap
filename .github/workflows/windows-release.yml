@@ -23,6 +23,7 @@ jobs:
       - uses: Swatinem/rust-cache@v2
         with:
           cache-on-failure: true
+          key: projects-v030
       - name: Testar núcleo Rust
         run: cargo test --locked
       - name: Compilar versão de teste
@@ -55,7 +56,7 @@ jobs:
           $testDir = Join-Path $env:RUNNER_TEMP 'AtelierInstallTest'
           $dataDir = Join-Path $env:LOCALAPPDATA 'AtelierRoadmap'
           New-Item -ItemType Directory -Force $dataDir | Out-Null
-          '{"schemaVersion":1,"settings":{"dailyMinutes":360,"start":"09:00","days":[1,2,3,4,5]},"tasks":[],"milestones":[],"revenue":[],"history":[],"appliedUpdates":[],"marker":"must-survive"}' | Set-Content (Join-Path $dataDir 'agenda.json')
+          '{"schemaVersion":1,"settings":{"dailyMinutes":360,"start":"09:00","days":[1,2,3,4,5],"closeBehavior":"exit","minimizeBehavior":"tray","notificationsEnabled":true},"tasks":[],"milestones":[],"revenue":[],"history":[],"appliedUpdates":[],"marker":"must-survive"}' | Set-Content (Join-Path $dataDir 'agenda.json')
           $p = Start-Process dist/Atelier-Setup.exe -ArgumentList '/VERYSILENT','/SUPPRESSMSGBOXES','/NORESTART',"/DIR=$testDir" -PassThru
           if (!$p.WaitForExit(120000)) { throw 'O instalador não encerrou em dois minutos.' }
           if ($p.ExitCode -ne 0) { throw "Instalação falhou: $($p.ExitCode)" }
@@ -78,7 +79,25 @@ jobs:
           }
           if (!$ready) { throw 'A interface não confirmou o carregamento dos dados.' }
           if (((Get-Content (Join-Path $dataDir 'agenda.json') -Raw) | ConvertFrom-Json).marker -ne 'must-survive') { throw 'Instalação alterou dados locais.' }
+          Add-Type @'
+          using System;
+          using System.Runtime.InteropServices;
+          public class AtelierWindowSmoke {
+            [DllImport("user32.dll")] public static extern bool PostMessage(IntPtr h, uint m, IntPtr w, IntPtr l);
+            [DllImport("user32.dll")] public static extern bool IsWindowVisible(IntPtr h);
+            [DllImport("user32.dll")] public static extern bool IsIconic(IntPtr h);
+          }
+          '@
+          $windowHandle = $app.MainWindowHandle
+          [AtelierWindowSmoke]::PostMessage($windowHandle,0x112,[IntPtr]0xF020,[IntPtr]0) | Out-Null
+          Start-Sleep -Milliseconds 1800
+          if ($status.trayAvailable) {
+            if ([AtelierWindowSmoke]::IsWindowVisible($windowHandle)) { throw 'A escolha bandeja não ocultou a janela.' }
+          } elseif (![AtelierWindowSmoke]::IsIconic($windowHandle)) { throw 'Sem bandeja, a janela deveria permanecer na barra de tarefas.' }
+          Start-Process "$testDir/Atelier.exe" | Out-Null
           Start-Sleep -Milliseconds 1500
+          if (![AtelierWindowSmoke]::IsWindowVisible($windowHandle) -or [AtelierWindowSmoke]::IsIconic($windowHandle)) { throw 'Reabrir o aplicativo não restaurou a janela.' }
+          $app.Refresh()
           $app.CloseMainWindow() | Out-Null
           if (!$app.WaitForExit(15000)) { throw 'Fechar janela não encerrou o aplicativo.' }
           if (((Get-Content (Join-Path $dataDir 'agenda.json') -Raw) | ConvertFrom-Json).marker -ne 'must-survive') { throw 'Fechar o aplicativo alterou os dados preservados.' }
@@ -90,5 +109,5 @@ jobs:
           $tag = "v$env:ATELIER_VERSION"
           gh release view $tag *> $null
           if ($LASTEXITCODE -eq 0) { Write-Host 'Versão já publicada; aumente Cargo.toml para publicar outra.'; exit 0 }
-          gh release create $tag dist/Atelier-Setup.exe dist/Atelier-Setup.exe.sha256 dist/Atelier.exe --target $env:GITHUB_SHA --title "Atelier $env:ATELIER_VERSION — Windows" --notes "Aplicativo Rust para Windows 10/11 x64. Instale Atelier-Setup.exe. Próximas versões: Ajustes → Checar atualização. Plano de tarefas: Ajustes → Buscar plano do mentor. Dados locais preservados."
+          gh release create $tag dist/Atelier-Setup.exe dist/Atelier-Setup.exe.sha256 dist/Atelier.exe --target $env:GITHUB_SHA --title "Atelier $env:ATELIER_VERSION — Windows" --notes "Atelier 0.3: gerenciamento pessoal de projetos, roadmap, tarefas, Kanban, prazos, lembretes e bandeja. Windows 10/11 x64. Instale Atelier-Setup.exe. Próximas versões: Ajustes → Checar atualização. Plano de tarefas: Ajustes → Buscar plano do mentor. Dados locais preservados."
           if ($LASTEXITCODE -ne 0) { throw 'Falha ao publicar release.' }

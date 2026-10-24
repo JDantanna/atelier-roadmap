@@ -1,9 +1,10 @@
 {
   "name": "atelier-roadmap-tests",
   "private": true,
-  "version": "0.2.0",
+  "version": "0.3.0",
   "scripts": {
-    "test": "python tests/run-ui.py"
+    "test": "python tests/run-ui.py",
+    "test:model": "node tests/model.cjs"
   },
   "devDependencies": {
     "playwright": "1.64.1"

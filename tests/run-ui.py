@@ -1,5 +1,6 @@
 import os, pathlib, subprocess, tempfile, urllib.request
 root = pathlib.Path(__file__).resolve().parents[1]
+subprocess.run(['node', str(root/'tests/model.cjs')], check=True)
 with tempfile.TemporaryDirectory(prefix='atelier-test-') as directory:
     env = dict(os.environ, LOCALAPPDATA=directory, ATELIER_HEADLESS='1')
     server = subprocess.Popen([str(root/'target/debug/atelier-roadmap')], env=env, stdout=subprocess.PIPE, text=True)

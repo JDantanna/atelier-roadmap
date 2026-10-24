@@ -9,8 +9,13 @@ use std::{
 };
 #[cfg(windows)]
 mod desktop;
+mod notifications;
+#[cfg(windows)]
+mod tray;
 mod updates;
 const HTML: &str = include_str!("../web/index.html");
+const MODEL: &str = include_str!("../web/model.js");
+const PROJECTS: &str = include_str!("../web/projects.js");
 const MAX: usize = 4 * 1024 * 1024;
 fn token() -> String {
     let mut a = RandomState::new().build_hasher();
@@ -68,6 +73,7 @@ fn handle(
     origin: &str,
     path: &Path,
     updates: &updates::Shared,
+    notifications: &notifications::Hub,
 ) -> bool {
     let _ = s.set_read_timeout(Some(Duration::from_secs(5)));
     let _ = s.set_write_timeout(Some(Duration::from_secs(5)));
@@ -117,8 +123,76 @@ fn handle(
             &mut s,
             "200 OK",
             "text/html; charset=utf-8",
-            HTML.as_bytes(),
+            HTML.replace("__ATELIER_VERSION__", env!("CARGO_PKG_VERSION"))
+                .as_bytes(),
         );
+    } else if method == "GET" && suffix == "model.js" {
+        reply(
+            &mut s,
+            "200 OK",
+            "text/javascript; charset=utf-8",
+            MODEL.as_bytes(),
+        );
+    } else if method == "GET" && suffix == "projects.js" {
+        reply(
+            &mut s,
+            "200 OK",
+            "text/javascript; charset=utf-8",
+            PROJECTS.as_bytes(),
+        );
+    } else if method == "GET" && suffix == "notifications" {
+        reply(
+            &mut s,
+            "200 OK",
+            "application/json",
+            &serde_json::to_vec(&notifications.list()).unwrap(),
+        );
+    } else if method == "POST" && suffix == "notifications/test" {
+        match notifications.test() {
+            Ok(()) => reply(&mut s, "200 OK", "application/json", b"{}"),
+            Err(e) => reply(
+                &mut s,
+                "500 Internal Server Error",
+                "text/plain",
+                e.as_bytes(),
+            ),
+        }
+    } else if method == "POST" && suffix == "notifications/action" {
+        let len = headers
+            .lines()
+            .find_map(|x| {
+                x.split_once(':')
+                    .filter(|(k, _)| k.eq_ignore_ascii_case("content-length"))
+                    .and_then(|(_, v)| v.trim().parse::<usize>().ok())
+            })
+            .unwrap_or(MAX + 1);
+        if len > MAX {
+            reply(&mut s, "400 Bad Request", "text/plain", b"Invalid body");
+            return false;
+        }
+        while buf.len() < end + len {
+            match s.read(&mut chunk) {
+                Ok(0) | Err(_) => return false,
+                Ok(n) => buf.extend_from_slice(&chunk[..n]),
+            }
+        }
+        match serde_json::from_slice::<serde_json::Value>(&buf[end..end + len]) {
+            Ok(v) => match notifications.action(
+                v["id"].as_str().unwrap_or(""),
+                v["action"].as_str().unwrap_or(""),
+                v["minutes"].as_i64().unwrap_or(10),
+                chrono::Utc::now().timestamp_millis(),
+            ) {
+                Ok(()) => reply(&mut s, "200 OK", "application/json", b"{}"),
+                Err(e) => reply(
+                    &mut s,
+                    "400 Bad Request",
+                    "text/plain; charset=utf-8",
+                    e.as_bytes(),
+                ),
+            },
+            Err(_) => reply(&mut s, "400 Bad Request", "text/plain", b"Invalid JSON"),
+        }
     } else if method == "GET" && suffix == "updates" {
         let data = serde_json::to_vec(&*updates.lock().unwrap()).unwrap();
         reply(&mut s, "200 OK", "application/json", &data);
@@ -223,9 +297,19 @@ fn run() -> Result<(), Box<dyn std::error::Error>> {
     let base = format!("/{}/", token());
     let url = format!("{origin}{base}");
     let state = updates::new();
+    let (notification_sender, notification_receiver) = std::sync::mpsc::channel();
+    let hub = notifications::Hub::new(dir.join("notifications.json"), notification_sender)?;
+    hub.start(dir.join("agenda.json"));
     let serve = move || {
         for stream in listener.incoming().flatten() {
-            if handle(stream, &base, &origin, &dir.join("agenda.json"), &state) {
+            if handle(
+                stream,
+                &base,
+                &origin,
+                &dir.join("agenda.json"),
+                &state,
+                &hub,
+            ) {
                 break;
             }
         }
@@ -242,10 +326,16 @@ fn run() -> Result<(), Box<dyn std::error::Error>> {
             serve();
             let _ = sender.send(());
         });
-        desktop::run(url, receiver, directory().join("webview"))?;
+        desktop::run(
+            url,
+            receiver,
+            notification_receiver,
+            directory().join("webview"),
+        )?;
     }
     #[cfg(not(windows))]
     {
+        drop(notification_receiver);
         println!("{url}");
         serve();
     }
