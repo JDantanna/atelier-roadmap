@@ -21,6 +21,8 @@ jobs:
         with:
           node-version: '22'
       - uses: Swatinem/rust-cache@v2
+        with:
+          cache-on-failure: true
       - name: Testar núcleo Rust
         run: cargo test --locked
       - name: Compilar versão de teste
@@ -53,13 +55,22 @@ jobs:
           $testDir = Join-Path $env:RUNNER_TEMP 'AtelierInstallTest'
           $dataDir = Join-Path $env:LOCALAPPDATA 'AtelierRoadmap'
           New-Item -ItemType Directory -Force $dataDir | Out-Null
-          '{"preserve":"sentinel"}' | Set-Content (Join-Path $dataDir 'agenda.json')
-          $before = Get-FileHash (Join-Path $dataDir 'agenda.json')
+          '{"schemaVersion":1,"settings":{"dailyMinutes":360,"start":"09:00","days":[1,2,3,4,5]},"tasks":[],"milestones":[],"revenue":[],"history":[],"appliedUpdates":[],"marker":"must-survive"}' | Set-Content (Join-Path $dataDir 'agenda.json')
           $p = Start-Process dist/Atelier-Setup.exe -ArgumentList '/VERYSILENT','/SUPPRESSMSGBOXES','/NORESTART',"/DIR=$testDir" -PassThru -Wait
           if ($p.ExitCode -ne 0) { throw "Instalação falhou: $($p.ExitCode)" }
           if (!(Test-Path "$testDir/Atelier.exe")) { throw 'Executável não instalado.' }
-          if ((Get-FileHash (Join-Path $dataDir 'agenda.json')).Hash -ne $before.Hash) { throw 'Instalador alterou dados locais.' }
-          Get-Process Atelier -ErrorAction SilentlyContinue | Stop-Process
+          $app = $null
+          for ($i=0; $i -lt 100; $i++) {
+            $app = Get-Process Atelier -ErrorAction SilentlyContinue | Where-Object { $_.MainWindowHandle -ne 0 } | Select-Object -First 1
+            if ($app) { break }
+            Start-Sleep -Milliseconds 100
+          }
+          if (!$app -or $app.MainWindowTitle -notmatch 'Atelier') { throw 'A janela nativa não abriu.' }
+          if (((Get-Content (Join-Path $dataDir 'agenda.json') -Raw) | ConvertFrom-Json).marker -ne 'must-survive') { throw 'Instalação alterou dados locais.' }
+          Start-Sleep -Milliseconds 1500
+          $app.CloseMainWindow() | Out-Null
+          if (!$app.WaitForExit(15000)) { throw 'Fechar janela não encerrou o aplicativo.' }
+          if (((Get-Content (Join-Path $dataDir 'agenda.json') -Raw) | ConvertFrom-Json).marker -ne 'must-survive') { throw 'Fechar o aplicativo alterou os dados preservados.' }
       - name: Publicar GitHub Release
         shell: pwsh
         env:

@@ -17,11 +17,18 @@ pub fn run(
         .build(&event_loop)?;
     let mut context = wry::WebContext::new(Some(profile));
     let allowed = url.clone();
+    let loaded = std::sync::Arc::new(std::sync::atomic::AtomicBool::new(false));
+    let loaded_handler = loaded.clone();
     let webview = wry::WebViewBuilder::with_web_context(&mut context)
         .with_url(&url)
         .with_devtools(cfg!(debug_assertions))
         .with_navigation_handler(move |target| {
             target.starts_with(&allowed) || target.starts_with("blob:")
+        })
+        .with_on_page_load_handler(move |event, _| {
+            if matches!(event, wry::PageLoadEvent::Finished) {
+                loaded_handler.store(true, std::sync::atomic::Ordering::Relaxed);
+            }
         })
         .with_new_window_req_handler(|_| false)
         .build(&window)?;
@@ -29,6 +36,7 @@ pub fn run(
         *control_flow=ControlFlow::WaitUntil(std::time::Instant::now()+std::time::Duration::from_millis(150));
         if receiver.try_recv().is_ok(){*control_flow=ControlFlow::Exit;return;}
         if let Event::WindowEvent{event:WindowEvent::CloseRequested,..}=event {
+            if !loaded.load(std::sync::atomic::Ordering::Relaxed){*control_flow=ControlFlow::Exit;return;}
             let _=webview.evaluate_script("if(typeof state!=='undefined' && state){document.querySelector('#exit').click()}else{fetch('quit',{method:'POST'})}");
         }
     });
