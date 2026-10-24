@@ -56,7 +56,8 @@ jobs:
           $dataDir = Join-Path $env:LOCALAPPDATA 'AtelierRoadmap'
           New-Item -ItemType Directory -Force $dataDir | Out-Null
           '{"schemaVersion":1,"settings":{"dailyMinutes":360,"start":"09:00","days":[1,2,3,4,5]},"tasks":[],"milestones":[],"revenue":[],"history":[],"appliedUpdates":[],"marker":"must-survive"}' | Set-Content (Join-Path $dataDir 'agenda.json')
-          $p = Start-Process dist/Atelier-Setup.exe -ArgumentList '/VERYSILENT','/SUPPRESSMSGBOXES','/NORESTART',"/DIR=$testDir" -PassThru -Wait
+          $p = Start-Process dist/Atelier-Setup.exe -ArgumentList '/VERYSILENT','/SUPPRESSMSGBOXES','/NORESTART',"/DIR=$testDir" -PassThru
+          if (!$p.WaitForExit(120000)) { throw 'O instalador não encerrou em dois minutos.' }
           if ($p.ExitCode -ne 0) { throw "Instalação falhou: $($p.ExitCode)" }
           if (!(Test-Path "$testDir/Atelier.exe")) { throw 'Executável não instalado.' }
           $app = $null
