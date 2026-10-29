@@ -109,5 +109,5 @@ jobs:
           $tag = "v$env:ATELIER_VERSION"
           gh release view $tag *> $null
           if ($LASTEXITCODE -eq 0) { Write-Host 'Versão já publicada; aumente Cargo.toml para publicar outra.'; exit 0 }
-          gh release create $tag dist/Atelier-Setup.exe dist/Atelier-Setup.exe.sha256 dist/Atelier.exe --target $env:GITHUB_SHA --title "Atelier $env:ATELIER_VERSION — Windows" --notes "Atelier 0.3: gerenciamento pessoal de projetos, roadmap, tarefas, Kanban, prazos, lembretes e bandeja. Windows 10/11 x64. Instale Atelier-Setup.exe. Próximas versões: Ajustes → Checar atualização. Plano de tarefas: Ajustes → Buscar plano do mentor. Dados locais preservados."
+          gh release create $tag dist/Atelier-Setup.exe dist/Atelier-Setup.exe.sha256 dist/Atelier.exe tests/board-preview.png --target $env:GITHUB_SHA --title "Atelier $env:ATELIER_VERSION — Windows" --notes "Atelier 0.4: quadro infinito com notas, textos, referências, conexões, pan/zoom e desfazer; navegação simplificada; limpeza local com backup recuperável. Windows 10/11 x64. Instale Atelier-Setup.exe. Próximas versões: Ajustes → Checar atualização. Limpeza: Ajustes → Limpar todos os projetos. Backup automático antes da limpeza. Dados locais preservados."
           if ($LASTEXITCODE -ne 0) { throw 'Falha ao publicar release.' }

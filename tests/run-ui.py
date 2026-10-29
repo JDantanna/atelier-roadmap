@@ -8,6 +8,8 @@ with tempfile.TemporaryDirectory(prefix='atelier-test-') as directory:
     url = server.stdout.readline().strip()
     try:
         result = subprocess.run(['node', str(root/'tests/ui.cjs')], env=dict(os.environ, ATELIER_TEST_URL=url))
+        if result.returncode: raise SystemExit(result.returncode)
+        result = subprocess.run(['node', str(root/'tests/board.cjs')], env=dict(os.environ, ATELIER_TEST_URL=url))
         raise SystemExit(result.returncode)
     finally:
         try:

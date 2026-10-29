@@ -1,3 +1,35 @@
+# Atelier 0.4 — ideias e projetos
+
+Um espaço local para pensar visualmente e organizar o próximo passo. Windows 10/11 x64, Rust com WebView2.
+
+## Quadro infinito
+
+A tela inicial é **Quadro**: adicione notas, texto e imagens PNG/JPG/WebP (botão ou arraste um arquivo). Duplo clique edita o item; arraste para mover. Use Mão ou Espaço + arraste para navegar e a roda ou +/− para zoom. Enquadrar reúne os itens. Conectar liga o primeiro item ao segundo. Shift + clique seleciona vários; Excluir remove a seleção e conexões associadas. Desfazer/Refazer também aceita Ctrl+Z, Ctrl+Shift+Z e Ctrl+Y.
+
+Quadro e câmera são salvos automaticamente na agenda local. Imagens são incorporadas, reduzidas para até 1800 px e comprimidas; não dependem do arquivo original e não alteram arquivos externos. Limite do espaço: cerca de 30 MB; cada importação aceita até 15 MB antes da redução. Guarde originais fora do aplicativo para impressão. O histórico de desfazer dura a sessão. Não há colaboração online ou paridade completa com Miro.
+
+## Organização simples
+
+A barra principal contém Quadro, Tarefas e Projetos. Calendário, roadmap, Kanban, notificações e relatórios ficam em **Mais visões**. A tarefa começa com os campos essenciais; prioridade, repetição, lembretes e dependências ficam em **Mais opções**. Prazos continuam funcionando com o aplicativo aberto ou na bandeja.
+
+## Limpar e recuperar projetos
+
+A atualização preserva os dados instalados. Para remover **todos** os projetos, tarefas (inclusive sem projeto) e marcos no seu Windows: **Ajustes → Limpar todos os projetos**. Antes de remover, o aplicativo salva um backup completo e independente em `%LOCALAPPDATA%\AtelierRoadmap\before-cleanup-DATA.json`. Se o backup falhar, nada é removido. A limpeza mantém quadro, preferências e recebimentos; zera o histórico de projetos e bloqueia novas importações do mentor. Não toca em arquivos pessoais externos.
+
+**Recuperar última limpeza** restaura projetos, tarefas e marcos com tempo, notas e conclusão. Mantém o quadro e as preferências atuais. Antes de recuperar cria outra cópia, permitindo voltar ao estado anterior. Para recuperar uma cópia mais antiga, use Restaurar backup com o arquivo before-cleanup correspondente (restauração completa, inclusive quadro). Os backups independentes não são sobrescritos pelas gravações normais.
+
+Novas instalações começam vazias. Não há criação automática de projetos demonstrativos ou do mentor. Após limpar, use **Permitir importar planos novamente** somente quando quiser voltar a importar. A importação sempre mostra uma prévia.
+
+## Atualização e validação
+
+**Ajustes → Checar atualização → Baixar atualização → Instalar e reiniciar**. Alternativa: Atelier-Setup.exe na release do GitHub. Os dados locais são preservados.
+
+Desenvolvimento: `cargo test --locked`, `cargo build --locked`, `npm ci`, `npx playwright install chromium`, `npm test`. O fluxo Windows testa instalação, janela, bandeja e persistência antes de publicar instalador e SHA-256. Testes do quadro cobrem operações reais de ponteiro, importação/reabertura da imagem, edição, limpeza com falha de backup e recuperação sem perder alterações posteriores do quadro.
+
+---
+
+## Notas de versões anteriores
+
 # Atelier — projetos e roadmaps
 
 Gerenciador pessoal de projetos para **Windows 10/11 x64**, feito em **Rust**, com janela própria. A versão 0.3 amplia o antigo planejador artístico; a agenda anterior é preservada.

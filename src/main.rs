@@ -16,7 +16,8 @@ mod updates;
 const HTML: &str = include_str!("../web/index.html");
 const MODEL: &str = include_str!("../web/model.js");
 const PROJECTS: &str = include_str!("../web/projects.js");
-const MAX: usize = 4 * 1024 * 1024;
+const BOARD: &str = include_str!("../web/board.js");
+const MAX: usize = 32 * 1024 * 1024;
 fn token() -> String {
     let mut a = RandomState::new().build_hasher();
     a.write_u8(1);
@@ -126,6 +127,60 @@ fn handle(
             HTML.replace("__ATELIER_VERSION__", env!("CARGO_PKG_VERSION"))
                 .as_bytes(),
         );
+    } else if method == "GET" && suffix == "board.js" {
+        reply(
+            &mut s,
+            "200 OK",
+            "text/javascript; charset=utf-8",
+            BOARD.as_bytes(),
+        );
+    } else if method == "POST" && suffix == "cleanup-backup" {
+        let result = (|| -> std::io::Result<String> {
+            let data = std::fs::read(path)?;
+            let name = format!(
+                "before-cleanup-{}.json",
+                chrono::Utc::now().format("%Y%m%dT%H%M%S%f")
+            );
+            let mut file = std::fs::OpenOptions::new()
+                .write(true)
+                .create_new(true)
+                .open(path.with_file_name(&name))?;
+            file.write_all(&data)?;
+            file.sync_all()?;
+            Ok(name)
+        })();
+        match result {
+            Ok(name) => reply(
+                &mut s,
+                "200 OK",
+                "application/json",
+                &serde_json::to_vec(&serde_json::json!({"name":name})).unwrap(),
+            ),
+            Err(_) => reply(
+                &mut s,
+                "500 Internal Server Error",
+                "text/plain",
+                b"Backup failed; nothing removed",
+            ),
+        }
+    } else if method == "GET" && suffix == "cleanup-backup" {
+        let latest = std::fs::read_dir(path.parent().unwrap())
+            .ok()
+            .into_iter()
+            .flatten()
+            .filter_map(Result::ok)
+            .map(|e| e.path())
+            .filter(|p| {
+                p.file_name()
+                    .and_then(|s| s.to_str())
+                    .map(|n| n.starts_with("before-cleanup-") && n.ends_with(".json"))
+                    .unwrap_or(false)
+            })
+            .max();
+        match latest.and_then(|p| std::fs::read(p).ok()) {
+            Some(data) => reply(&mut s, "200 OK", "application/json", &data),
+            None => reply(&mut s, "404 Not Found", "text/plain", b"No cleanup backup"),
+        }
     } else if method == "GET" && suffix == "model.js" {
         reply(
             &mut s,
